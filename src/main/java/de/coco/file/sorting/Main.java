@@ -1,10 +1,5 @@
 package de.coco.file.sorting;
-
-import de.coco.file.sorting.input.DirectoryReader;
-import de.coco.file.sorting.input.Reader;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
