@@ -14,19 +14,18 @@ import java.util.List;
 import java.util.Properties;
 
 public class Main {
-
+    public static final String PROJECT_ROOT_PATH= System.getProperty("user.dir");
     public static final String FILENAME_PROPERTIES = "configuration.properties";
-    private static final File RESOURCES = new File("src" + File.separator + "main" + File.separator + "resources"
-    );
+    private static final String RESOURCES = File.separator +"src" + File.separator + "main" + File.separator + "resources"+ File.separator;
 
 
     public static void main(String[] args) throws IOException {
 
-        Properties properties = readProperties();
+        Properties properties = readPropertiesFileInPropertiesVariable();
 
         List<String> inputPaths = readPropertyAndSplit(properties, "input.directories");
-        String outputPath = readPropertyAndSplit(properties, "output.directory").get(0);
-        String overrideString = readPropertyAndSplit(properties, "existing.files.override").get(0);
+        String outputPath = readProperty(properties, "output.directory");
+        String overrideString = readProperty(properties, "existing.files.override");
         boolean override =Boolean.parseBoolean(overrideString);
 
 
@@ -37,7 +36,16 @@ public class Main {
 
 
     }
-
+    private static String readProperty(Properties properties, String property) {
+        String readProperty="";
+        String valueInputPaths = properties.getProperty(property);
+        if(valueInputPaths.contains("/")) {
+            readProperty=convertIfNeeded(valueInputPaths);
+        }else{
+           readProperty=valueInputPaths;
+        }
+        return readProperty;
+    }
     private static List<String> readPropertyAndSplit(Properties properties, String property) {
         List<String> inputPaths=new ArrayList<>();
         String valueInputPaths = properties.getProperty(property);
@@ -56,10 +64,10 @@ public class Main {
         }
         return path;
     }
-    private static Properties readProperties() throws IOException {
+    private static Properties readPropertiesFileInPropertiesVariable() throws IOException {
         Properties properties;
 
-        File appConfigPath = new File(RESOURCES, FILENAME_PROPERTIES);
+        File appConfigPath = new File(PROJECT_ROOT_PATH+RESOURCES+ FILENAME_PROPERTIES);
         System.out.println(appConfigPath);
         properties = new Properties();
         properties.load(new FileInputStream(appConfigPath));
