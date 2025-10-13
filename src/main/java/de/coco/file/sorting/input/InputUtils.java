@@ -1,22 +1,27 @@
 package de.coco.file.sorting.input;
 
+import de.coco.file.sorting.dtos.FileImpl;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InputUtils {
 
-    public static ArrayList<File> createFiles(List<String> pfade){
-        ArrayList<File> files= new ArrayList<File>();
+    public static ArrayList<FileImpl> createFiles(List<String> pfade){
+        ArrayList<FileImpl> files= new ArrayList<FileImpl>();
 
             for (String pfad:pfade) {
                 try {
-                    File neu = new File(pfad);
+                    Path path = Paths.get(pfad);
+                    File neu = new File(path.toUri());
                     if(!neu.exists()){
                         throw new FileNotFoundException("Pfad existiert nicht:"+pfad);
                     }
-                    files.add(neu);
+                    files.add(new FileImpl(neu));
                 }catch (Exception n){
                     System.out.println("Pfad ist falsch:"+n.getMessage());
                 }
