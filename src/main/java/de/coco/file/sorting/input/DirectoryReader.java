@@ -4,11 +4,12 @@ import de.coco.file.sorting.dtos.FileImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class DirectoryReader implements Reader {
     private ArrayList<FileImpl> directoriesToSearch;
-    private ArrayList<FileImpl> allFileImplsInDirectories=new ArrayList<>();
+    private HashSet<FileImpl> allFileImplsInDirectories=new HashSet<>();
 
     public DirectoryReader(List<String> pathsToSearch){
         directoriesToSearch= InputUtils.createFiles(pathsToSearch);

@@ -4,14 +4,37 @@ import java.io.File;
 import java.util.*;
 
 public class FileImpl {
-File file;
+    File file;
+
     public FileImpl(File file) {
-        this.file=file;
+        this.file = file;
     }
 
+    @Override
+    public boolean equals(Object o) {
 
-    public boolean equals(FileImpl obj) {
-        return Objects.equals(this.file.hashCode(), obj.hashCode());
+        if (this == o) return true;
+        if (!(o instanceof FileImpl)) return false;
+
+        FileImpl other = (FileImpl) o;
+        //Vergleichmethoden
+        if (!(other.getFile().length() == this.getFile().length())) {
+            return false;
+        }
+        if (!(other.getFile().lastModified() == this.getFile().lastModified())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        // Hash auf Basis des Filetyps
+
+        int hash = Objects.hash(getFileExtension(file));
+
+        return hash;
     }
 
     public File getFile() {
@@ -25,5 +48,14 @@ File file;
             fileimplList.add(new FileImpl(fileIterator.next()));
         }
         return fileimplList;
+    }
+
+    public static String getFileExtension(File file) {
+        String name = file.getName();
+        int lastDot = name.lastIndexOf('.');
+        if (lastDot == -1) {
+            return ""; // keine Endung vorhanden
+        }
+        return name.substring(lastDot + 1).toLowerCase();
     }
 }
